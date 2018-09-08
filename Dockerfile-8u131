@@ -1,0 +1,9 @@
+FROM openjdk:8u131-jdk-alpine as BUILDER
+WORKDIR /root/
+COPY HelloWorld.java .
+RUN javac HelloWorld.java
+
+FROM openjdk:8u131-jre-alpine
+WORKDIR /root/
+COPY --from=BUILDER  /root/HelloWorld.class .
+ENTRYPOINT ["java", "-XshowSettings:vm", "HelloWorld"]

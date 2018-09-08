@@ -1,0 +1,9 @@
+FROM openjdk:10.0.2-jdk  as BUILDER
+WORKDIR /root/
+COPY HelloWorld.java .
+RUN javac HelloWorld.java
+
+FROM openjdk:10.0.2-jre
+WORKDIR /root/
+COPY --from=BUILDER  /root/HelloWorld.class .
+ENTRYPOINT ["java", "-XshowSettings:vm", "HelloWorld"]
